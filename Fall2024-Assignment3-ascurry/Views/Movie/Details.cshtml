@@ -1,0 +1,120 @@
+@model Fall2024_Assignment3_ascurry.Models.MovieDetailsViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div>
+    <h4>@Html.DisplayFor(model => model.Movie.Title) (@Html.DisplayFor(model => model.Movie.ReleaseYear))</h4>
+    <hr />
+    <!--RESTYLE LATER-->
+
+    <div class="container-md">
+            @if (Model.Movie.Poster != null)
+            {
+                var base64 = Convert.ToBase64String(Model.Movie.Poster);
+                var imgSrc = $"data:image/jpg;base64,{base64}";
+                // <img src="@imgSrc" width="100" height="100" />
+                <img src="@Url.Action("GetMoviePoster", "Movie", new { Model.Movie.Id })" width=20% class="rounded" />
+            }
+        <div class="mt-2 mb-4">
+            <span class="badge bg-info">@Html.DisplayFor(model => model.Movie.Genre)</span>
+            <button type="button" class="btn btn-warning btn-sm" href="@Html.DisplayFor(model => model.Movie.IMDBLink)">IMDb</button>
+        </div>
+    </div>
+
+
+    <!--
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Movie.Title)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Movie.Title)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Movie.IMDBLink)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Movie.IMDBLink)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Movie.Genre)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Movie.Genre)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Movie.ReleaseYear)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Movie.ReleaseYear)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Movie.Poster)
+        </dt>
+        <dd class="col-sm-10">
+            @if (Model.Movie.Poster != null)
+            {
+                var base64 = Convert.ToBase64String(Model.Movie.Poster);
+                var imgSrc = $"data:image/jpg;base64,{base64}";
+                // <img src="@imgSrc" width="100" height="100" />
+                <img src="@Url.Action("GetMoviePoster", "Movie", new { Model.Movie.Id })" width=20% class="rounded" />
+            }
+        </dd>
+    </dl>
+    -->
+
+    <h4>Starring</h4>
+    <hr />
+    <div class="row">
+        @foreach (var item in Model.Actors)
+        {
+
+            <div class="col-md-4">
+                <div class="card mb-4" style="max-width: 420px;">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <a asp-action="Details" asp-route-id="@item.Id" asp-controller="Actor"><img src="@Url.Action("GetActorPhoto", "Actor", new { item.Id })" class="img-fluid rounded-start" alt="@item.Name"></a>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">@item.Name</h5>
+                                <p class="card-text"> @item.Age years old</p>
+                                <a href="@item.IMDBLink" target="_blank" class="btn btn-warning">IMDb</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+
+    <h4>Reviews and Sentiments</h4>
+    <hr />
+    <h5>Overall Sentiment: @Model.AvgSentiment</h5>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Review</th>
+                <th scope="col">Review Sentiment</th>
+            </tr>
+
+        </thead>
+        <tbody class="table-group-divider">
+            @foreach (var item in Model.ReviewsAndSentiments)
+            {
+                <tr>
+                    <td>@item[0]</td>
+                    <td>@item[1]</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Movie.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
