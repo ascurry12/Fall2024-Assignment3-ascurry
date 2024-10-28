@@ -95,7 +95,7 @@
     <h4>Tweets and Sentiments</h4>
     <hr />
     <h5>Overall Sentiment: @Model.AvgSentiment</h5>
-    <table class="table table-striped">
+    <table class="datatables table table-striped">
         <thead>
             <tr>
                 <th scope="col">Tweet</th>
@@ -115,7 +115,20 @@
     </table>
 
 </div>
-    <div>
-        <a asp-action="Edit" asp-route-id="@Model?.Actor.Id">Edit</a> |
-        <a asp-action="Index">Back to List</a>
-    </div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Actor.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css"
+          integrity="sha384-5oFfLntNy8kuC2TaebWZbaHTqdh3Q+7PwYbB490gupK0YtTAB7mBJGv4bQl9g9rK"
+          crossorigin="anonymous">
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"
+            integrity="sha384-k5vbMeKHbxEZ0AEBTSdR7UjAgWCcUfrS8c0c5b2AfIh7olfhNkyCZYwOfzOQhauK"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"
+            integrity="sha384-PgPBH0hy6DTJwu7pTf6bkRqPlf/+pjUBExpr/eIfzszlGYFlF9Wi9VTAJODPhgCO"
+            crossorigin="anonymous"></script>
+    <script>$('table.datatables').DataTable();</script>
+}
